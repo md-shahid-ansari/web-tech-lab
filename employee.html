@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Details</title>
+    <style>
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align:center;">Employee Details</h1>
+    <div id="employeeTable"></div>
+
+    <script>
+        function fetchEmployeeData() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "emp.xml", true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    var xmlDoc = xhr.responseXML;
+                    var employees = xmlDoc.getElementsByTagName("employee");
+                    var table = "<table><tr><th>Name</th><th>Department</th><th>Salary</th></tr>";
+                    for (var i = 0; i < employees.length; i++) {
+                        var name = employees[i].getElementsByTagName("name")[0].textContent;
+                        var department = employees[i].getElementsByTagName("department")[0].textContent;
+                        var salary = employees[i].getElementsByTagName("salary")[0].textContent;
+                        table += "<tr><td>" + name + "</td><td>" + department + "</td><td>" + salary + "</td></tr>";
+                    }
+                    table += "</table>";
+                    document.getElementById("employeeTable").innerHTML = table;
+                } else {
+                    document.getElementById("employeeTable").innerHTML = "Failed to load employee data.";
+                }
+            };
+            xhr.send();
+        }
+        window.onload = fetchEmployeeData;
+    </script>
+</body>
+</html>

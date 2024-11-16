@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validated Form</title>
+    <link rel='stylesheet' type='text/css' href='form.css'>
+    <script>
+        function handlePrint(event) {
+            event.preventDefault(); // Prevent form submission
+            const name = document.getElementById("name").value;
+            const age = document.getElementById("age").value;
+            const gender = document.querySelector('input[name="gender"]:checked')?.value || "Not selected";
+            const country = document.getElementById("country").value;
+            const lang = document.getElementById("lang").value;
+
+            if(name.length > 10){
+                alert("Name should not be more that 10 chars!");
+                return;
+            }
+            if(parseInt(age.trim()) > 25){
+                alert("Age should not be more that 25 years!");
+                return;
+            }
+            if(country != "India" && lang == "Hindi"){
+                alert("Language should not be Hindi if you are not Indian!");
+                return;
+            }
+
+            // Display values on the page
+            const printArea = document.getElementById("printArea");
+            printArea.innerHTML = `
+                <h3>Entered Details</h3>
+                <p><strong>Name:</strong> ${name}</p>
+                <p><strong>Age:</strong> ${age}</p>
+                <p><strong>Gender:</strong> ${gender}</p>
+                <p><strong>Country:</strong> ${country}</p>
+                <p><strong>Languages Known:</strong> ${lang}</p>
+            `;
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Enter Details</h1>
+    <form>
+        <div>
+            <div>
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name">
+            </div>
+            <div>
+                <label for="age">Age</label>
+                <input type="text" name="age" id="age">
+            </div>
+        </div>
+        <div>
+            <div id="gender-radio">
+                <label>Gender</label>
+                <div class="radio-group">
+                    <label for="male">Male</label>
+                    <input type="radio" name="gender" value="Male" id="male">
+                    <label for="female">Female</label>
+                    <input type="radio" name="gender" value="Female" id="female">
+                    <label for="others">Others</label>
+                    <input type="radio" name="gender" value="Others" id="others">
+                </div>
+            </div>
+        </div>
+        <div>
+            <div>
+                <label for="country">Country:</label>
+                <select name="country" id="country">
+                    <option value="" disabled selected>Select your country</option>
+                    <option value="India">India</option>
+                    <option value="USA">USA</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Australia">Australia</option>
+                    <option value="UK">UK</option>
+                </select>
+            </div>
+            <div>
+                <label for="lang">Languages Known:</label>
+                <select name="lang" id="lang">
+                    <option value="" disabled selected>Select a language</option>
+                    <option value="English">English</option>
+                    <option value="Hindi">Hindi</option>
+                    <option value="Spanish">Spanish</option>
+                    <option value="French">French</option>
+                    <option value="Mandarin">Mandarin</option>
+                </select>
+            </div>            
+        </div>
+        <div>
+            <input type="submit" value="Print" onclick="handlePrint(event)">
+        </div>
+    </form>
+    <div id="printArea"></div>
+</body>
+
+</html>
